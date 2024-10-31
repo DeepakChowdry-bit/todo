@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const connect = async () => {
-  const PORT = process.env.MONGO_COMPASS || "";
-  console.log(PORT)
+  const PORT = process.env.MONGO_URI || "";
+  console.log(PORT);
   if (!PORT) {
     console.error("Connection string is empty");
     return;
