@@ -1,8 +1,14 @@
 "use client";
 import React, { useState } from "react";
 
+interface NewTodo {
+  _id: string;
+  title: string;
+  isCompleter: boolean;
+}
+
 interface AddTodoProps {
-  onAddTodo: (newTodo: { _id: string; title: string; isCompleter: boolean }) => void;
+  onAddTodo: (newTodo: NewTodo) => void;
 }
 
 const AddTodo: React.FC<AddTodoProps> = ({ onAddTodo }) => {
@@ -17,14 +23,21 @@ const AddTodo: React.FC<AddTodoProps> = ({ onAddTodo }) => {
         },
         body: JSON.stringify(todo),
       });
+
       if (res.ok) {
-        const newTodo = await res.json();
+        const newTodo: NewTodo = await res.json();
         console.log("Todo created successfully", newTodo);
         onAddTodo(newTodo); // Call the callback to update the parent state
         setTodo({ title: "" }); // Clear input after submission
+      } else {
+        console.error("Failed to create todo", await res.text());
       }
-    } catch (e: any) {
-      console.error("Error creating todo", e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.error("Error creating todo", e.message);
+      } else {
+        console.error("Unexpected error creating todo", e);
+      }
     }
   };
 

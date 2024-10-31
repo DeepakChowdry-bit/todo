@@ -1,7 +1,6 @@
 "use client";
 import AddTodo from "@/components/AddTodo";
 import TodoList from "@/components/TodoList";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface Todo {
